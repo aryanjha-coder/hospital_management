@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CarePoint | Hospital Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section id="loginScreen" class="login-screen">
+    <form id="loginForm" class="login-card">
+      <div class="brand-mark">✚</div>
+      <p class="eyebrow">CAREPOINT HOSPITAL</p>
+      <h1>Welcome back</h1>
+      <p class="muted">Sign in to manage your hospital workspace.</p>
+      <label for="username">Username</label>
+      <input id="username" autocomplete="username" required placeholder="Enter username" value="admin">
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required placeholder="Enter password" value="admin123">
+      <p id="loginError" class="error" role="alert"></p>
+      <button class="primary-btn full" type="submit">Sign in</button>
+      <p class="hint">Demo credentials: <b>admin</b> / <b>admin123</b></p>
+    </form>
+  </section>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark small">✚</span><span>CarePoint</span></div>
+      <p class="nav-label">WORKSPACE</p>
+      <button class="nav-link active" data-page="dashboard"><span>▦</span> Dashboard</button>
+      <button class="nav-link" data-page="patients"><span>♙</span> Patients</button>
+      <button class="nav-link" data-page="doctors"><span>⚕</span> Doctors</button>
+      <button class="nav-link" data-page="appointments"><span>▣</span> Appointments</button>
+      <button class="nav-link" data-page="billing"><span>₹</span> Billing</button>
+      <div class="sidebar-bottom">
+        <div class="user-mini"><div class="avatar">A</div><div><b>Administrator</b><small>Hospital Admin</small></div></div>
+        <button id="logoutBtn" class="logout-btn">↪ Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="menuBtn" class="menu-btn" aria-label="Toggle menu">☰</button>
+          <div><p class="eyebrow">HOSPITAL MANAGEMENT</p><h2 id="pageTitle">Dashboard</h2></div>
+        </div>
+        <div class="topbar-right"><span class="status-dot"></span><span>System online</span><div class="avatar">A</div></div>
+      </header>
+
+      <section id="dashboardPage" class="page">
+        <div class="welcome-row">
+          <div><h1>Good day, Administrator 👋</h1><p class="muted">Here is what's happening at your hospital today.</p></div>
+          <span class="date-chip" id="todayDate"></span>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon blue">♙</div><p>Total Patients</p><h2 id="statPatients">0</h2><small>Registered patients</small></article>
+          <article class="stat-card"><div class="stat-icon green">⚕</div><p>Doctors</p><h2 id="statDoctors">0</h2><small>Available doctors</small></article>
+          <article class="stat-card"><div class="stat-icon purple">▣</div><p>Appointments</p><h2 id="statAppointments">0</h2><small>All scheduled visits</small></article>
+          <article class="stat-card"><div class="stat-icon orange">₹</div><p>Total Billing</p><h2 id="statBilling">₹0</h2><small>Recorded bills</small></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Recent appointments</h3><p class="muted">Latest scheduled visits</p></div><button class="text-btn" data-goto="appointments">View all →</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentAppointments"></tbody></table></div>
+          </article>
+          <article class="panel quick-panel"><div class="panel-heading"><div><h3>Quick actions</h3><p class="muted">Common tasks</p></div></div>
+            <button class="quick-action" data-goto="patients"><span class="quick-icon">＋</span><span><b>Add patient</b><small>Register a new patient</small></span><strong>→</strong></button>
+            <button class="quick-action" data-goto="appointments"><span class="quick-icon">▣</span><span><b>Book appointment</b><small>Schedule a patient visit</small></span><strong>→</strong></button>
+            <button class="quick-action" data-goto="billing"><span class="quick-icon">₹</span><span><b>Create bill</b><small>Record a patient bill</small></span><strong>→</strong></button>
+          </article>
+        </div>
+      </section>
+
+      <section id="patientsPage" class="page hidden">
+        <div class="page-intro"><div><h1>Patient management</h1><p class="muted">Register and manage patient information.</p></div><button class="primary-btn" id="addPatientBtn">＋ Add patient</button></div>
+        <article class="panel"><div class="toolbar"><input id="patientSearch" class="search" placeholder="Search by name, ID or phone..."><span class="muted" id="patientCount">0 patients</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Patient ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Phone</th><th>Actions</th></tr></thead><tbody id="patientsTable"></tbody></table></div>
+        </article>
+      </section>
+
+      <section id="doctorsPage" class="page hidden">
+        <div class="page-intro"><div><h1>Doctor directory</h1><p class="muted">Manage doctors and their specialties.</p></div><button class="primary-btn" id="addDoctorBtn">＋ Add doctor</button></div>
+        <article class="panel"><div class="toolbar"><input id="doctorSearch" class="search" placeholder="Search doctors or specialty..."><span class="muted" id="doctorCount">0 doctors</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Doctor ID</th><th>Name</th><th>Specialty</th><th>Phone</th><th>Actions</th></tr></thead><tbody id="doctorsTable"></tbody></table></div>
+        </article>
+      </section>
+
+      <section id="appointmentsPage" class="page hidden">
+        <div class="page-intro"><div><h1>Appointments</h1><p class="muted">Schedule and track patient visits.</p></div><button class="primary-btn" id="addAppointmentBtn">＋ Book appointment</button></div>
+        <article class="panel"><div class="toolbar"><input id="appointmentSearch" class="search" placeholder="Search patient or doctor..."><span class="muted" id="appointmentCount">0 appointments</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Appointment ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead><tbody id="appointmentsTable"></tbody></table></div>
+        </article>
+      </section>
+
+      <section id="billingPage" class="page hidden">
+        <div class="page-intro"><div><h1>Billing & payments</h1><p class="muted">Record and review patient bills.</p></div><button class="primary-btn" id="addBillBtn">＋ Create bill</button></div>
+        <article class="panel"><div class="toolbar"><input id="billSearch" class="search" placeholder="Search patient or bill ID..."><span class="muted" id="billCount">0 bills</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Bill ID</th><th>Patient</th><th>Description</th><th>Date</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="billingTable"></tbody></table></div>
+        </article>
+      </section>
+      <footer>CarePoint HMS · College demonstration project · Demo data only</footer>
+    </main>
+  </div>
+
+  <dialog id="recordDialog">
+    <form id="recordForm" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">CAREPOINT HOSPITAL</p><h2 id="dialogTitle">Add record</h2></div><button type="button" class="close-btn" id="closeDialog" aria-label="Close">×</button></div>
+      <div id="dialogFields" class="form-grid"></div>
+      <p id="formError" class="error"></p>
+      <div class="dialog-actions"><button type="button" class="secondary-btn" id="cancelDialog">Cancel</button><button type="submit" class="primary-btn">Save record</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
